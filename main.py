@@ -1,0 +1,38 @@
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
+
+mongoConnection = input("Incolla qui la stringa per la connessione a Mongo: ").strip()
+
+try:
+    client = MongoClient(mongoConnection)
+    client.admin.command('ping')
+    print("Connessione avvenuta con successo")
+except ConnectionFailure:
+    print("Connessione fallita. Controlla la stringa di connessione.")
+    exit()
+
+dbName = input("Inserisci il nome del database: [ATTENZIONE ALLE MAIUSCOLE/MINUSCOLE]: ").strip()
+
+db = client[dbName]
+
+collections = db.list_collection_names()
+
+if collections:
+    print(f"Queste sono le tue collezioni: {collections}")
+else:
+    print(f"Non sono presenti collezioni nel database: {dbName}")
+    exit()
+
+singleCollection = input("Inserisci il nome esatto della collezione da visualizzare: ").strip()
+
+collection = db[singleCollection]
+docs = list(collection.find())
+
+if docs:
+    print(f"Documenti nella collezione '{singleCollection}':")
+    for doc in docs:
+        print(doc)
+        print("----------------------")
+else:
+    print(f"Non sono presenti documenti nella collezione: {singleCollection}")
+
