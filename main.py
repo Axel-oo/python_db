@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
+
+# CONNESSIONE AL DB
 mongoConnection = input("Incolla qui la stringa per la connessione a Mongo: ").strip()
 
 try:
@@ -11,7 +13,18 @@ except ConnectionFailure:
     print("Connessione fallita. Controlla la stringa di connessione.")
     exit()
 
-dbName = input("Inserisci il nome del database: [ATTENZIONE ALLE MAIUSCOLE/MINUSCOLE]: ").strip()
+
+# VISUALIZZAZIONE DI TUTTI I DATABASE
+allDb = client.list_database_names()
+
+for db in allDb:
+    print(db)
+
+while True:
+    dbName = input("Inserisci il nome del database: [ATTENZIONE ALLE MAIUSCOLE/MINUSCOLE]: ").strip()
+    if dbName not in allDb:
+        print("Nome database non corretto")
+    else: break
 
 db = client[dbName]
 
@@ -29,10 +42,13 @@ collection = db[singleCollection]
 docs = list(collection.find())
 
 if docs:
-    print(f"Documenti nella collezione '{singleCollection}':")
     for doc in docs:
-        print(doc)
-        print("----------------------")
+        print("Documento:")
+        for chiave, valore in doc.items():
+            print(f"  {chiave}: {valore}")
+        print("-" * 30)
+        
+
 else:
     print(f"Non sono presenti documenti nella collezione: {singleCollection}")
 
