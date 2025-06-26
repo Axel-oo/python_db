@@ -2,7 +2,7 @@
 
 ## Descrizione di main.py
 
-Il file [`main.py`](../main.py) permette di connettersi a un database MongoDB tramite una stringa di connessione fornita dall'utente. 
+Il file [`main.py`](./main.py) permette di connettersi a un database MongoDB tramite una stringa di connessione fornita dall'utente. 
 
 Dopo aver stabilito la connessione, lo script richiede il nome del database e mostra tutte le collezioni presenti.
 
