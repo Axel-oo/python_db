@@ -5,13 +5,15 @@ from pymongo.errors import ConnectionFailure
 # CONNESSIONE AL DB
 mongoConnection = input("Incolla qui la stringa per la connessione a Mongo: ").strip()
 
-try:
-    client = MongoClient(mongoConnection)
-    client.admin.command('ping')
-    print("Connessione avvenuta con successo")
-except ConnectionFailure:
-    print("Connessione fallita. Controlla la stringa di connessione.")
-    exit()
+while True:
+    try:
+        client = MongoClient(mongoConnection)
+        client.admin.command('ping')
+        print("Connessione avvenuta con successo")
+        break
+    except ConnectionFailure:
+        print("Connessione fallita. Controlla la stringa di connessione.")
+        continue
 
 
 # VISUALIZZAZIONE DI TUTTI I DATABASE
